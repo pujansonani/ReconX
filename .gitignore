@@ -7,7 +7,7 @@ yarn-debug.log*
 yarn-error.log*
 package-lock.json
 
-# Python
+# Python build artifacts
 __pycache__/
 *.py[cod]
 *$py.class
@@ -19,8 +19,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
+/lib/
+/lib64/
 parts/
 sdist/
 var/
@@ -30,6 +30,10 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+
+# Make sure frontend/src/lib is always included
+!frontend/src/lib/
+!frontend/src/lib/**
 
 # Virtual Environments
 env/
