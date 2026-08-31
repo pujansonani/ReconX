@@ -13,9 +13,9 @@ services:
       - AMOUNT_TOLERANCE=0.01
       - DATE_WINDOW_DAYS=3
       - DEFAULT_GST_RATE=0.18
-      - DATABASE_URL=sqlite:///./reconx.db
-      - GEMINI_API_KEY=${GEMINI_API_KEY:-AQ.Ab8RN6L_wS7FaH9cF7QePYFoBCfGFTTmiFzpiymy6uqpxSgGSg}
-      - GEMINI_MODEL=gemini-2.5-flash
+      - DATABASE_URL=sqlite:////app/data/reconx.db
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-2.5-flash}
     volumes:
       - backend-data:/app/data
 
