@@ -140,6 +140,24 @@ app.add_middleware(
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
+@app.get("/")
+def root():
+    return {
+        "service": "ReconX API — Autonomous Settlement Reconciliation Engine",
+        "status": "online",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "redoc": "/redoc",
+        "health": "/health",
+        "api_endpoints": {
+            "reconciliations": "/api/reconciliations",
+            "analytics": "/api/analytics",
+            "sentinel": "/api/razorpay/metrics",
+            "exceptions": "/api/exceptions",
+            "evaluation": "/api/evaluation/run"
+        }
+    }
+
 @app.get("/health")
 def health_check():
     return {
