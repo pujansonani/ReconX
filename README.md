@@ -187,4 +187,5 @@ Tests verify:
 
 ## License & Authorship
 
-Built by the ReconX Engineering Team. Designed for enterprise payment operations and fintech financial controllers.
+All Rights Reserved to PUJAN SONANI (pujan.sonani24@vit.edu)
+Built by the ReconX Engineering Team. Specially Designed for enterprise payment operations and fintech financial controllers.
