@@ -48,7 +48,7 @@ jobs:
       - name: Install Node Dependencies
         run: |
           cd frontend
-          npm ci
+          npm install --no-audit
 
       - name: TypeScript Type Check
         run: |
