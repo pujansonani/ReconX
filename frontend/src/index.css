@@ -1,0 +1,367 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   ReconX Design System
+   --------------------------------------------------------------------------
+   1. Dark variant strategy   — class based, driven by ThemeContext
+   2. @theme                  — semantic tokens exposed as Tailwind utilities
+   3. Dark overrides          — same token names, obsidian values
+   4. Base layer              — document, typography, focus, selection
+   5. Utilities               — surfaces, skeletons, numerics, scrollbars
+   ========================================================================== */
+
+/* 1. Dark variant --------------------------------------------------------- */
+/* Tailwind v4 defaults `dark:` to prefers-color-scheme. ThemeContext toggles
+   `html.dark`, so the variant must be re-bound to the class or every dark:
+   utility in the app would follow the OS instead of the in-app toggle. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 2. Semantic tokens ------------------------------------------------------ */
+@theme {
+  /* Brand ramp (oceanic) */
+  --color-brand-950: #01021f;
+  --color-brand-900: #03045e;
+  --color-brand-800: #023e8a;
+  --color-brand-700: #0077b6;
+  --color-brand-600: #0096c7;
+  --color-brand-500: #00b4d8;
+  --color-brand-400: #48cae4;
+  --color-brand-300: #90e0ef;
+  --color-brand-200: #ade8f4;
+  --color-brand-100: #caf0f8;
+  --color-brand-50: #eefaff;
+
+  /* Surfaces — page → card → raised → subtle → inset */
+  --color-page: #f6f8fb;
+  --color-surface: #ffffff;
+  --color-raised: #ffffff;
+  --color-subtle: #f1f5f9;
+  --color-inset: #eef2f7;
+  --color-overlay: rgb(15 23 42 / 0.55);
+
+  /* Lines */
+  --color-line: #e3e8ef;
+  --color-line-strong: #cbd5e1;
+  --color-line-accent: #bae4f5;
+
+  /* Foreground */
+  --color-fg: #0b1220;
+  --color-fg-secondary: #334155;
+  --color-fg-muted: #64748b;
+  --color-fg-faint: #94a3b8;
+
+  /* Accent (interactive) */
+  --color-accent: #0077b6;
+  --color-accent-hover: #023e8a;
+  --color-accent-fg: #ffffff;
+  --color-accent-soft: #ecf9ff;
+  --color-accent-soft-line: #bae4f5;
+  --color-accent-text: #036394;
+
+  /* Status */
+  --color-ok: #059669;
+  --color-ok-soft: #ecfdf5;
+  --color-ok-line: #a7f3d0;
+  --color-ok-text: #047857;
+
+  --color-warn: #d97706;
+  --color-warn-soft: #fffbeb;
+  --color-warn-line: #fde68a;
+  --color-warn-text: #b45309;
+
+  --color-danger: #e11d48;
+  --color-danger-soft: #fff1f2;
+  --color-danger-line: #fecdd3;
+  --color-danger-text: #be123c;
+
+  --color-info: #6366f1;
+  --color-info-soft: #eef2ff;
+  --color-info-line: #c7d2fe;
+  --color-info-text: #4338ca;
+
+  /* Radii */
+  --radius-card: 0.875rem;
+  --radius-tile: 0.75rem;
+  --radius-control: 0.625rem;
+
+  /* Elevation — soft, layered, low-opacity for light surfaces */
+  --shadow-e1: 0 1px 2px 0 rgb(15 23 42 / 0.04), 0 1px 1px -1px rgb(15 23 42 / 0.03);
+  --shadow-e2: 0 1px 3px 0 rgb(15 23 42 / 0.06), 0 4px 12px -4px rgb(15 23 42 / 0.06);
+  --shadow-e3: 0 2px 6px -1px rgb(15 23 42 / 0.08), 0 12px 28px -8px rgb(15 23 42 / 0.1);
+  --shadow-e4: 0 8px 20px -6px rgb(15 23 42 / 0.12), 0 24px 56px -16px rgb(15 23 42 / 0.16);
+
+  /* Typography */
+  --font-sans: "Inter var", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", monospace;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* 3. Dark overrides ------------------------------------------------------- */
+/* Same token names re-pointed, so every `bg-surface` / `text-fg-muted`
+   utility flips with the class — no per-component dark: variant needed. */
+html.dark {
+  --color-page: #070b12;
+  --color-surface: #0e1522;
+  --color-raised: #131c2b;
+  --color-subtle: #172232;
+  --color-inset: #101825;
+  --color-overlay: rgb(2 6 14 / 0.72);
+
+  --color-line: #1e293b;
+  --color-line-strong: #334155;
+  --color-line-accent: #17455f;
+
+  --color-fg: #f7fafc;
+  --color-fg-secondary: #cbd5e1;
+  --color-fg-muted: #94a3b8;
+  --color-fg-faint: #64748b;
+
+  --color-accent: #0096c7;
+  --color-accent-hover: #00b4d8;
+  --color-accent-fg: #04121b;
+  --color-accent-soft: #06283a;
+  --color-accent-soft-line: #1a4a63;
+  --color-accent-text: #6fd6ee;
+
+  --color-ok: #10b981;
+  --color-ok-soft: #052e21;
+  --color-ok-line: #10603f;
+  --color-ok-text: #6ee7b7;
+
+  --color-warn: #f59e0b;
+  --color-warn-soft: #2c1d05;
+  --color-warn-line: #6b4310;
+  --color-warn-text: #fcd34d;
+
+  --color-danger: #f43f5e;
+  --color-danger-soft: #33101c;
+  --color-danger-line: #7a1f35;
+  --color-danger-text: #fda4af;
+
+  --color-info: #818cf8;
+  --color-info-soft: #1b1c3d;
+  --color-info-line: #38397a;
+  --color-info-text: #b3b9fb;
+
+  /* Dark elevation reads as light bloom + tighter contact shadow */
+  --shadow-e1: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+  --shadow-e2: 0 1px 3px 0 rgb(0 0 0 / 0.5), 0 6px 16px -6px rgb(0 0 0 / 0.6);
+  --shadow-e3: 0 2px 8px -1px rgb(0 0 0 / 0.55), 0 16px 32px -10px rgb(0 0 0 / 0.7);
+  --shadow-e4: 0 10px 24px -6px rgb(0 0 0 / 0.6), 0 30px 64px -20px rgb(0 0 0 / 0.85);
+}
+
+/* 4. Base ----------------------------------------------------------------- */
+@layer base {
+  :root {
+    color-scheme: light;
+    /* Legacy aliases — kept so any un-migrated var(--bg-*) reference still
+       resolves to the new token values instead of falling back to nothing. */
+    --bg-page: var(--color-page);
+    --bg-card: var(--color-surface);
+    --bg-card-subtle: var(--color-subtle);
+    --border-card: var(--color-line);
+    --border-card-hover: var(--color-line-strong);
+    --text-primary: var(--color-fg);
+    --text-secondary: var(--color-fg-secondary);
+    --text-muted: var(--color-fg-muted);
+    --header-bg: var(--color-surface);
+    --header-border: var(--color-line);
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    background-color: var(--color-page);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Headings tighten as they scale up */
+  h1, h2, h3, h4 {
+    letter-spacing: -0.018em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* One consistent focus treatment for every interactive element. Pointer
+     clicks stay clean; keyboard traversal is always visible. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-700);
+    color: #ffffff;
+  }
+
+  /* Native controls follow the theme instead of the OS */
+  input, select, textarea, button {
+    font: inherit;
+    color: inherit;
+    accent-color: var(--color-accent);
+  }
+
+  select option {
+    background-color: var(--color-surface);
+    color: var(--color-fg);
+  }
+
+  code, kbd, samp, pre {
+    font-family: var(--font-mono);
+  }
+}
+
+/* 5. Utilities ------------------------------------------------------------- */
+
+/* Surfaces. `surface` is the default card body; `surface-subtle` for nested
+   panels; `surface-inset` for wells (code blocks, table headers, meters). */
+.surface {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-line);
+}
+.surface-subtle {
+  background-color: var(--color-subtle);
+  border: 1px solid var(--color-line);
+}
+.surface-inset {
+  background-color: var(--color-inset);
+  border: 1px solid var(--color-line);
+}
+
+/* Legacy class names still referenced in a few places */
+.card-surface {
+  background-color: var(--color-surface);
+  border-color: var(--color-line);
+}
+.subtle-surface {
+  background-color: var(--color-subtle);
+}
+
+/* Hairline divider that survives both themes */
+.hairline {
+  border-color: var(--color-line);
+}
+
+/* Frosted header / overlay chrome */
+.glass {
+  background-color: color-mix(in oklab, var(--color-surface) 78%, transparent);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+}
+
+/* Numeric alignment for money and counts */
+.tabular-nums,
+.num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+.num {
+  font-family: var(--font-mono);
+  letter-spacing: -0.01em;
+}
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* Loading placeholder. Uses a travelling sheen rather than opacity pulse so
+   it stays legible on the dark obsidian surface. */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-subtle);
+  border-radius: 0.5rem;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--color-fg) 7%, transparent),
+    transparent
+  );
+  animation: skeleton-sheen 1.4s var(--ease-out-cubic) infinite;
+}
+@keyframes skeleton-sheen {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Accent text that stays readable on both themes */
+.text-accent-adaptive {
+  color: var(--color-accent-text);
+}
+
+/* Subtle blueprint grid for hero / empty canvases */
+.grid-lines {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--color-fg) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-fg) 6%, transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Scrollbars: thin, themed, and only visible where they matter */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--color-fg) 20%, transparent);
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--color-fg) 34%, transparent);
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--color-fg) 20%, transparent) transparent;
+}
+
+/* Respect the OS reduced-motion setting globally, including animations
+   defined outside of framer-motion (skeletons, spinners, marquees). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .skeleton::after {
+    display: none;
+  }
+}
