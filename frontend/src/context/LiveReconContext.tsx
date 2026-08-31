@@ -4,6 +4,10 @@ import {
   pushLiveEventToFirestore
 } from '../services/firestoreService';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL
+  ? `${import.meta.env.VITE_API_BASE_URL.replace(/\/$/, '')}/api`
+  : '/api';
+
 export interface LiveEvent {
   id: string;
   type: 'MATCH_SUCCESS' | 'BATCH_SOLVED' | 'EXCEPTION_FLAGGED' | 'CONNECTED';
@@ -88,7 +92,7 @@ export const LiveReconProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
     const connectSSE = () => {
       try {
-        const url = 'http://127.0.0.1:8000/api/stream/events';
+        const url = `${API_BASE}/stream/events`;
         es = new EventSource(url);
         eventSourceRef.current = es;
 
@@ -154,7 +158,7 @@ export const LiveReconProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const toggleStreaming = async () => {
     try {
-      await fetch('http://127.0.0.1:8000/api/stream/toggle-sim', { method: 'POST' });
+      await fetch(`${API_BASE}/stream/toggle-sim`, { method: 'POST' });
       setIsStreaming((prev) => !prev);
     } catch (e) {
       console.error('Error toggling stream:', e);
@@ -190,7 +194,7 @@ export const LiveReconProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       await pushLiveEventToFirestore(livePayload);
 
       // 2. Also notify backend SSE engine
-      await fetch('http://127.0.0.1:8000/api/stream/inject', {
+      await fetch(`${API_BASE}/stream/inject`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ category, amount, order_id: orderId })
