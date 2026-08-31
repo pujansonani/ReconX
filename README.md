@@ -1,5 +1,8 @@
 # ReconX: AI-Powered Payment Settlement Reconciliation Agent
 
+Deployed Project Link (Frontend): https://recon-x-ybo2.vercel.app
+Backend: https://reconx-backend-fpsf.onrender.com/
+
 [![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg)](https://fastapi.tiangolo.com)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB.svg)](https://react.dev/)
