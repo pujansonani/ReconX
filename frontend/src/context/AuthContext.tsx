@@ -102,8 +102,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     switch (err?.code) {
       case 'auth/operation-not-allowed':
         return `${label} sign-in is not enabled in the Firebase Console. Enable it under Authentication → Sign-in method in project reconx-c988b, or use the Quick Controller Sign-in below.`;
-      case 'auth/unauthorized-domain':
-        return 'This domain is not authorized in the Firebase Console. Add it under Authentication → Settings → Authorized domains.';
+      case 'auth/unauthorized-domain': {
+        const currentHost = typeof window !== 'undefined' ? window.location.hostname : 'your deployed domain';
+        return `Domain '${currentHost}' is not authorized by Firebase. To fix: Open Firebase Console → Authentication → Settings → Authorized domains → Add '${currentHost}' (or simply add 'vercel.app' to authorize all Vercel deployments).`;
+      }
       case 'auth/popup-blocked':
         return 'The sign-in popup was blocked by your browser. Please allow popups, or use the Quick Controller Sign-in.';
       case 'auth/popup-closed-by-user':
